@@ -23,9 +23,9 @@ def index(path):
     Tato funkcia bude odpovedat na vsetky ostatne HTTP poziadavky, pre ktore nemame specialnu funkciu. Bude hladat subory v priecinku public.
   """
   if (len(path) == 0): # ak nezadany ziaden subor, teda cesta / chceme index.html
-    return send_from_directory('public', 'index.html')
+    return send_from_directory('.', 'index.html')
 
-  return send_from_directory('public', path)
+  return send_from_directory('.', path)
 
 
 @app.route('/render', methods=['post'])
