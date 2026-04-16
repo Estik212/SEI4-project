@@ -36,6 +36,5 @@ def render():
   ves = request.form.get('ves') # nacitanie hodnoty ktoru sme dostali v poziadavke
   width = request.form.get('width') # nacitanie hodnoty ktoru sme dostali v poziadavke
   print(ves)
-  # img = render_ves(ves, width) # tu posleme VES riadky do funkcie render_ves z projektu z prvého polroka
-  img = render_ves() 
-  return serve_pil_image(img) # vratime vyrenderovany obrazok ako jpg
+  img = render_ves(ves, width) 
+  return serve_pil_image(img) # vratime vyrenderovany obrazok ako png
