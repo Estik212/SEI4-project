@@ -6,7 +6,43 @@
     box-sizing: border-box;
 }
 
-/* Nyan Cat Theme */
+:root {
+    /* Night sky gradient */
+    --bg-gradient: linear-gradient(to bottom, #020111 0%, #20124d 100%);
+    --bg-color: #032a56;
+    --text-color: #fff;
+    --panel-bg: rgba(3, 42, 86, 0.8);
+    --border-color: rgba(255, 255, 255, 0.5);
+    --header-border: #fff;
+    --heading-shadow: rgba(255, 255, 255, 0.2);
+    --input-bg: rgba(0, 0, 0, 0.5);
+
+    /* stars */
+    --star-gradient: radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 4px);
+    --star-gradient2: radial-gradient(white, rgba(255, 255, 255, .15) 1px, transparent 3px);
+    --star-gradient3: radial-gradient(white, rgba(255, 255, 255, .1) 2px, transparent 4px);
+    --star-gradient4: radial-gradient(rgba(255, 255, 255, .4), rgba(255, 255, 255, .1) 2px, transparent 3px);
+}
+
+[data-theme='light'] {
+    /* Sunset gradient */
+    --bg-gradient: linear-gradient(to bottom, #2b4162, #fa9c7a, #e0c26b);
+    --bg-color: #fa9c7a;
+    --text-color: #111;
+    --panel-bg: rgba(255, 255, 255, 0.65);
+    --border-color: rgba(0, 0, 0, 0.2);
+    --header-border: #333;
+    --heading-shadow: rgba(0, 0, 0, 0.2);
+    --input-bg: rgba(255, 255, 255, 0.8);
+
+    /* remove stars */
+    --star-gradient: none;
+    --star-gradient2: none;
+    --star-gradient3: none;
+    --star-gradient4: none;
+}
+
+/* Theme */
 body {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -16,46 +52,135 @@ body {
         "input output";
     height: 100vh;
     font-family: 'Comic Neue', cursive;
-    background-color: #032a56;
-    /* Nyan space blue */
+    background-color: var(--bg-color);
     background-image:
-        radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 4px),
-        radial-gradient(white, rgba(255, 255, 255, .15) 1px, transparent 3px),
-        radial-gradient(white, rgba(255, 255, 255, .1) 2px, transparent 4px),
-        radial-gradient(rgba(255, 255, 255, .4), rgba(255, 255, 255, .1) 2px, transparent 3px);
-    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
-    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+        var(--star-gradient),
+        var(--star-gradient2),
+        var(--star-gradient3),
+        var(--star-gradient4),
+        var(--bg-gradient);
+    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px, 100% 100%;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 0 0;
     animation: stars 20s linear infinite;
-    color: #fff;
+    color: var(--text-color);
     overflow: hidden;
+    transition: background-color 0.5s, color 0.5s;
 }
 
 @keyframes stars {
     from {
-        background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+        background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 0 0;
     }
 
     to {
-        background-position: -550px 0, -310px 60px, -120px 270px, -80px 100px;
+        background-position: -550px 0, -310px 60px, -120px 270px, -80px 100px, 0 0;
     }
 
     /* Stars moving left */
 }
 
-h1 {
+.header-area {
     grid-area: header;
-    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 1rem 2vw;
+    border-bottom: 4px dashed var(--header-border);
+    z-index: 10;
+}
+
+h1 {
     text-align: center;
     background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #0099ff, #6633cc);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    border-bottom: 4px dashed #fff;
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     letter-spacing: 2px;
-    z-index: 10;
-    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.2);
+    text-shadow: 2px 2px 0px var(--heading-shadow);
     animation: rainbow-text 3s linear infinite;
+    margin: 0 auto;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    right: max(10px, 2vw);
+    align-items: center;
+}
+
+.theme-toggle {
+    position: relative;
+    padding: clamp(0.5rem, 1vw, 0.8rem) clamp(1rem, 2.5vw, 1.5rem);
+    border-radius: 50px;
+    /* Candy Pink Background (lesklý ružový) */
+    background: radial-gradient(circle at 30% 30%, #ff529a 0%, #c1005a 80%);
+    color: #ffffff;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    cursor: pointer;
+
+    /* White rim as in the image / Obrys */
+    border: 3px solid #ffffff;
+
+    /* Internal depth + outer shadow (Vnútorný a vonkajší 3D tieň) */
+    box-shadow:
+        inset 0px 8px 10px rgba(255, 255, 255, 0.6),
+        inset 0px -6px 10px rgba(80, 0, 30, 0.4),
+        0px 6px 12px rgba(0, 0, 0, 0.4);
+
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+    /* Pop text out */
+    outline: none;
+    z-index: 100;
+}
+
+.theme-toggle::after {
+    /* Extra glossy highlight on top / Silný biely odlesk zvrchu */
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: 35%;
+    border-radius: 50px 50px 100px 100px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+}
+
+.sound-btn {
+    padding: 0;
+    width: clamp(2.5rem, 6vw, 3.5rem);
+    height: clamp(2.5rem, 6vw, 3.5rem);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+.sound-btn::after {
+    border-radius: 50%;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow:
+        inset 0px 8px 15px rgba(255, 255, 255, 0.8),
+        inset 0px -6px 10px rgba(80, 0, 30, 0.4),
+        0px 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+    box-shadow:
+        inset 0px 4px 6px rgba(255, 255, 255, 0.4),
+        inset 0px -3px 5px rgba(80, 0, 30, 0.4),
+        0px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes rainbow-text {
@@ -73,8 +198,8 @@ body>section:nth-of-type(1) {
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    border-right: 4px dashed rgba(255, 255, 255, 0.5);
-    background: rgba(3, 42, 86, 0.8);
+    border-right: 4px dashed var(--border-color);
+    background: var(--panel-bg);
 }
 
 body>section:nth-of-type(2) {
@@ -83,7 +208,7 @@ body>section:nth-of-type(2) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(3, 42, 86, 0.8);
+    background: var(--panel-bg);
     position: relative;
     /* Crucial for our moving cat */
     overflow-y: auto;
@@ -94,8 +219,8 @@ body>section:nth-of-type(2) {
 body>section:nth-of-type(2)::after {
     content: '';
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     background: url('https://i.gifer.com/17xo.gif') no-repeat center / contain;
     z-index: 100;
     pointer-events: none;
@@ -114,42 +239,42 @@ body>section:nth-of-type(2)::after {
 
     24% {
         top: 0;
-        left: calc(100% - 200px);
+        left: calc(100% - 100px);
         transform: rotate(0deg);
     }
 
     /* Turn down */
     25% {
         top: 0;
-        left: calc(100% - 200px);
+        left: calc(100% - 100px);
         transform: rotate(90deg);
     }
 
     /* Right edge: moving down */
     49% {
-        top: calc(100% - 200px);
-        left: calc(100% - 200px);
+        top: calc(100% - 100px);
+        left: calc(100% - 100px);
         transform: rotate(90deg);
     }
 
     /* Turn left */
     50% {
-        top: calc(100% - 200px);
-        left: calc(100% - 200px);
+        top: calc(100% - 100px);
+        left: calc(100% - 100px);
         transform: scaleX(-1);
         filter: hue-rotate(0deg);
     }
 
     /* Bottom edge: moving left */
     74% {
-        top: calc(100% - 200px);
+        top: calc(100% - 100px);
         left: 0;
         transform: scaleX(-1);
     }
 
     /* Turn up */
     75% {
-        top: calc(100% - 200px);
+        top: calc(100% - 100px);
         left: 0;
         transform: rotate(-90deg);
     }
@@ -178,11 +303,11 @@ form {
 textarea {
     width: 100%;
     flex-grow: 1;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--input-bg);
     border: 4px solid #ff00ff;
     /* Pink border */
     border-radius: 16px;
-    color: #fff;
+    color: var(--text-color);
     padding: 1.5rem;
     font-family: 'Fira Code', monospace;
     font-size: 16px;
