@@ -19,3 +19,19 @@ function handleSubmit(e) {
         })
 }
 document.querySelector("form").addEventListener("submit", handleSubmit); // Nastavíme formulár, aby pri submit udalosti spustil našu handleSubmit funkciu
+
+// Theme toggle logic
+const themeToggleBtn = document.getElementById('themeToggle');
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const root = document.documentElement;
+        const currentTheme = root.getAttribute('data-theme');
+        if (currentTheme === 'light') {
+            root.setAttribute('data-theme', 'dark');
+            themeToggleBtn.innerText = '🌞 Light Mode';
+        } else {
+            root.setAttribute('data-theme', 'light');
+            themeToggleBtn.innerText = '🌙 Dark Mode';
+        }
+    });
+}
