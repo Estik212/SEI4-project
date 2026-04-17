@@ -20,6 +20,11 @@ function handleSubmit(e) {
 }
 document.querySelector("form").addEventListener("submit", handleSubmit); // Nastavíme formulár, aby pri submit udalosti spustil našu handleSubmit funkciu
 
+// Inicializačné vykreslenie prázdneho plátna hneď po načítaní stránky
+window.addEventListener('DOMContentLoaded', () => {
+    document.querySelector("form").dispatchEvent(new Event("submit"));
+});
+
 // Theme toggle logic
 const themeToggleBtn = document.getElementById('themeToggle');
 if (themeToggleBtn) {
@@ -75,3 +80,94 @@ if (soundToggleBtn) {
         }
     });
 }
+
+// --- LOGIKA KRESLIACEJ PALETY ---
+let selectedShape = null;
+const shapeBtns = document.querySelectorAll('.tool-btn[data-shape]');
+const outputImg = document.getElementById('output');
+
+shapeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Ak kliknem na už zapnutý nástroj, tak ho vypnem
+        if (selectedShape === btn.dataset.shape) {
+            selectedShape = null;
+            btn.classList.remove('active');
+            outputImg.classList.remove('crosshair-active');
+        } else {
+            // Vypnem všetky ostatné
+            shapeBtns.forEach(b => b.classList.remove('active'));
+            // Zapnem nový
+            selectedShape = btn.dataset.shape;
+            btn.classList.add('active');
+            outputImg.classList.add('crosshair-active');
+        }
+    });
+});
+
+// Zmazanie celého obsahu (odpadkový kôš)
+const clearBtn = document.getElementById('clearBtn');
+if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+        const textarea = document.querySelector('textarea[name="ves"]');
+        textarea.value = ''; // Úplne vymaže textové pole
+        document.querySelector("form").dispatchEvent(new Event("submit")); // Pošle na render čisté plátno
+    });
+}
+
+outputImg.addEventListener('click', (e) => {
+    // Ak nemám vybratý žiaden nástroj, nerobím nič
+    if (!selectedShape) return;
+
+    const textarea = document.querySelector('textarea[name="ves"]');
+
+    // Ak je pole prázdne, doplň automaticky predvolenú hlavičku
+    if (textarea.value.trim() === '') {
+        textarea.value = 'VES v1.0 400 200\n';
+    }
+
+    const vesCode = textarea.value.trim().split('\n');
+    let origWidth = 400;
+    let origHeight = 200;
+
+    // Zistím originálnu veľkosť z 1. riadku, aby som zachytil presné súradnice
+    if (vesCode.length > 0 && vesCode[0].startsWith('VES')) {
+        const parts = vesCode[0].split(' ').filter(p => p);
+        if (parts.length >= 4) {
+            origWidth = parseInt(parts[2]) || origWidth;
+            origHeight = parseInt(parts[3]) || origHeight;
+        }
+    }
+
+    // Výpočet kliknutej polohy pre VES plátno
+    const clickX = Math.round((e.offsetX / outputImg.clientWidth) * origWidth);
+    const clickY = Math.round((e.offsetY / outputImg.clientHeight) * origHeight);
+
+    // Náhodná farba pre nový tvar
+    const randomHex = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase();
+    const color = randomHex();
+
+    let command = "";
+    if (selectedShape === 'CIRCLE') {
+        command = `CIRCLE ${clickX} ${clickY} 50 3 ${color}`;
+    } else if (selectedShape === 'FILL_CIRCLE') {
+        command = `FILL_CIRCLE ${clickX} ${clickY} 50 ${color}`;
+    } else if (selectedShape === 'RECT') {
+        command = `RECT ${clickX} ${clickY} 100 50 3 ${color}`;
+    } else if (selectedShape === 'FILL_RECT') {
+        command = `FILL_RECT ${clickX} ${clickY} 100 50 ${color}`;
+    } else if (selectedShape === 'LINE') {
+        command = `LINE ${clickX} ${clickY} ${clickX + 50} ${clickY + 50} 3 ${color}`;
+    } else if (selectedShape === 'TRIANGLE') {
+        command = `TRIANGLE ${clickX} ${clickY} ${clickX + 60} ${clickY} ${clickX + 30} ${clickY - 50} 3 ${color}`;
+    }
+
+    // Pridám príkaz do textového poľa
+    if (textarea.value && !textarea.value.endsWith('\n')) {
+        textarea.value += '\n';
+    }
+    textarea.value += command + '\n';
+
+    // Automaticky odoslať formulár na renderovanie bez refreshtnutia
+    // dispatchEvent urobí plynulé odoslanie ako keby som klikol na tlačidlo
+    textarea.closest('form').dispatchEvent(new Event('submit'));
+});

@@ -417,3 +417,66 @@ textarea::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #ff0000, #ff9900, #ffff00, #33cc33, #0099ff, #6633cc);
     border-radius: 10px;
 }
+
+/* --- Tvarová Paleta --- */
+.shape-toolbar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-radius: 16px;
+    border: 3px solid var(--border-color);
+}
+
+[data-theme='light'] .shape-toolbar {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.tool-btn {
+    padding: 0;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent !important;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    /* Reset from default button style */
+    animation: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    color: initial;
+}
+
+[data-theme='light'] .tool-btn {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.tool-btn:hover {
+    transform: scale(1.1) !important;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Aktívny nástroj dostane výrazný obrys */
+.tool-btn.active {
+    border-color: #00ffff !important;
+    box-shadow: 0 0 10px #00ffff, inset 0 0 5px #00ffff !important;
+    background: rgba(0, 255, 255, 0.2) !important;
+    transform: scale(1.1);
+}
+
+[data-theme='light'] .tool-btn.active {
+    border-color: #ff00ff !important;
+    box-shadow: 0 0 10px #ff00ff, inset 0 0 5px #ff00ff !important;
+    background: rgba(255, 0, 255, 0.2) !important;
+}
+
+/* Keď je vybratý nástroj, výstupný obrázok dostane krížik namiesto šípky, aby pouzivatel vedel kliknut */
+#output.crosshair-active {
+    cursor: crosshair;
+}
