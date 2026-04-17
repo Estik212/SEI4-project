@@ -9,9 +9,9 @@ def random_color():
   return (r, g, b)
 
 def render_ves(ves_string, target_width):
-    # Ak formulár nič neposlal, vrátime biely obrázok
+    # Ak formulár nič neposlal, vrátime biely obrázok s veľkosťou 400x200
     if not ves_string or ves_string.strip() == "":
-        return Image.new('RGB', (640, 400), (255, 255, 255))
+        return Image.new('RGB', (400, 200), (255, 255, 255))
         
     # Namiesto load_file_content si text rozdelíme priamo na riadky a slová z reťazca
     pole = []
