@@ -40,28 +40,24 @@
             <br>
             <button type="submit">Vyrenderovať obrázok</button>
         </form>
-        <!-- Examples moved out to become the 3rd section -->
     </section>
 
-    <!-- 2. sekcia obsahuje miesto, kam sa nahrá obrázok. App.js ju vyhľadá pomocou 'section:nth-child(2)' -->
+    <!-- 2. sekcia obsahuje miesto, kam sa nahrá obrázok. App.js ju vyhľadá pomocou 'section:nth-of-type(2)' -->
     <section>
         <h2>Výstup:</h2>
         <div id="canvas-wrapper" class="canvas-wrapper">
-            <img id="outputImg" alt="Tu sa po stlačení tlačidla zobrazí vyrenderovaný obrázok" />
+            <img id="output" alt="Tu sa po stlačení tlačidla zobrazí vyrenderovaný obrázok" />
         </div>
+        <button id="scroll-to-canvas" class="scroll-btn">Zrolovať k náhľadu ⏬</button>
     </section>
 
-    <!-- 3. sekcia: Galéria ukážok -->
-    <section id="examples" class="examples-container">
-        <div class="examples-header">
-            <h3 class="examples-title">Inšpirácie a Ukážkové kódy</h3>
-            <button type="button" id="scroll-to-canvas" class="scroll-btn">⏬ K Výsledku</button>
-        </div>
-        <div id="examples-list" class="examples-list">
-            <!-- Tu sa cez app.js vygenerujú ukážkové kartičky -->
+    <!-- 3. sekcia pre galériu ukážok -->
+    <section id="examples">
+        <h2>Inšpirácia a ukážky</h2>
+        <div id="examples-list" class="examples-grid">
+            <!-- Sem app.js dynamicky vloží kartičky -->
         </div>
     </section>
 
 </body>
-
 </html>
