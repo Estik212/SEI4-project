@@ -151,6 +151,10 @@ outputImg.addEventListener('click', (e) => {
     let clickX = Math.round((e.offsetX / outputImg.clientWidth) * origWidth);
     let clickY = Math.round((e.offsetY / outputImg.clientHeight) * origHeight);
 
+    // Obmedzenie kliknutia prísne na oblasť plátna (napr. ak sa kliklo na padding/border obrázka)
+    clickX = Math.max(0, Math.min(clickX, origWidth));
+    clickY = Math.max(0, Math.min(clickY, origHeight));
+
     // Načítam farbu a veľkosť z inputov
     const colorInput = document.getElementById('shapeColor');
     const color = colorInput ? colorInput.value.toUpperCase() : '#FF0000';
@@ -158,19 +162,6 @@ outputImg.addEventListener('click', (e) => {
     const sizeInput = document.getElementById('shapeSize');
     const size = sizeInput ? parseInt(sizeInput.value, 10) : 50;
     const thickness = Math.max(1, Math.floor(size / 15)); // hrúbka sa ráta podľa veľkosti
-
-    // Zabezpečenie, aby tvary nepretiekli mimo rozsah plátna
-    if (selectedShape === 'CIRCLE' || selectedShape === 'FILL_CIRCLE') {
-        clickX = Math.max(size, Math.min(clickX, origWidth - size));
-        clickY = Math.max(size, Math.min(clickY, origHeight - size));
-    } else if (selectedShape === 'RECT' || selectedShape === 'FILL_RECT') {
-        clickX = Math.max(0, Math.min(clickX, origWidth - (size * 2)));
-        clickY = Math.max(0, Math.min(clickY, origHeight - size));
-    } else if (selectedShape === 'TRIANGLE') {
-        const trWidth = Math.round(size * 1.2);
-        clickX = Math.max(0, Math.min(clickX, origWidth - trWidth));
-        clickY = Math.max(size, Math.min(clickY, origHeight));
-    }
 
     let command = "";
     if (selectedShape === 'CIRCLE') {

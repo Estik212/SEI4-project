@@ -357,24 +357,16 @@ def fill_rect(img, A, B, color):
   width, height = B
   bx, by = ax + width, ay + height
 
-  if ax < bx and ay > by:
-    ay, by = by, ay
-    for x in range(ax, bx):
-      for y in range(ay, by):
-        img.putpixel((x, y), color)
-  elif ax < bx and ay < by:
-    for x in range(ax, bx):
-      for y in range(ay, by):
-        img.putpixel((x, y), color)
+  # Ohodnotenie startovacich a koncovych bodov
+  start_x, end_x = min(ax, bx), max(ax, bx)
+  start_y, end_y = min(ay, by), max(ay, by)
 
-  elif ax > bx and ay > by:
-    ax, bx = bx, ax
-    ay, by = by, ay
-    for x in range(ax, bx):
-      for y in range(ay, by):
-        img.putpixel((x, y), color)
-  elif ax > bx and ay < by:
-    ax, bx = bx, ax
-    for x in range(ax, bx):
-      for y in range(ay, by):
-        img.putpixel((x, y), color)
+  # Orezať limity presne na rozmery obrazka aby nespadol putpixel
+  start_x = max(0, min(start_x, img.width))
+  end_x = max(0, min(end_x, img.width))
+  start_y = max(0, min(start_y, img.height))
+  end_y = max(0, min(end_y, img.height))
+
+  for x in range(start_x, end_x):
+    for y in range(start_y, end_y):
+      img.putpixel((x, y), color)
