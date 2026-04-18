@@ -25,6 +25,11 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelector("form").dispatchEvent(new Event("submit"));
 });
 
+// Inicializačné vykreslenie prázdneho plátna hneď po načítaní stránky
+window.addEventListener('DOMContentLoaded', () => {
+    document.querySelector("form").dispatchEvent(new Event("submit"));
+});
+
 // Theme toggle logic
 const themeToggleBtn = document.getElementById('themeToggle');
 if (themeToggleBtn) {
@@ -145,7 +150,7 @@ outputImg.addEventListener('click', (e) => {
     // Načítam farbu a veľkosť z inputov
     const colorInput = document.getElementById('shapeColor');
     const color = colorInput ? colorInput.value.toUpperCase() : '#FF0000';
-    
+
     const sizeInput = document.getElementById('shapeSize');
     const size = sizeInput ? parseInt(sizeInput.value, 10) : 50;
     const thickness = Math.max(1, Math.floor(size / 15)); // hrúbka sa ráta podľa veľkosti
@@ -160,7 +165,7 @@ outputImg.addEventListener('click', (e) => {
     } else if (selectedShape === 'FILL_RECT') {
         command = `FILL_RECT ${clickX} ${clickY} ${size * 2} ${size} ${color}`;
     } else if (selectedShape === 'TRIANGLE') {
-        command = `TRIANGLE ${clickX} ${clickY} ${clickX + Math.round(size*1.2)} ${clickY} ${clickX + Math.round(size*0.6)} ${clickY - size} ${thickness} ${color}`;
+        command = `TRIANGLE ${clickX} ${clickY} ${clickX + Math.round(size * 1.2)} ${clickY} ${clickX + Math.round(size * 0.6)} ${clickY - size} ${thickness} ${color}`;
     }
 
     // Pridám príkaz do textového poľa
