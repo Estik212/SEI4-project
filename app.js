@@ -22,11 +22,13 @@ document.querySelector("form").addEventListener("submit", handleSubmit); // Nast
 
 // Inicializačné vykreslenie prázdneho plátna hneď po načítaní stránky
 window.addEventListener('DOMContentLoaded', () => {
-    document.querySelector("form").dispatchEvent(new Event("submit"));
-});
-
-// Inicializačné vykreslenie prázdneho plátna hneď po načítaní stránky
-window.addEventListener('DOMContentLoaded', () => {
+    const textarea = document.querySelector('textarea[name="ves"]');
+    if (textarea.value.trim() === '') {
+        // Nastavíme rozmery plátna presne podľa fyzickej veľkosti textového boxu
+        const w = textarea.clientWidth > 0 ? textarea.clientWidth : 800;
+        const h = textarea.clientHeight > 0 ? textarea.clientHeight : 600;
+        textarea.value = `VES v1.0 ${w} ${h}\n`;
+    }
     document.querySelector("form").dispatchEvent(new Event("submit"));
 });
 
@@ -125,14 +127,16 @@ outputImg.addEventListener('click', (e) => {
 
     const textarea = document.querySelector('textarea[name="ves"]');
 
-    // Ak je pole prázdne, doplň automaticky predvolenú hlavičku
+    // Ak je pole prázdne, doplň automaticky predvolenú hlavičku podľa veľkosti textového poľa
     if (textarea.value.trim() === '') {
-        textarea.value = 'VES v1.0 400 200\n';
+        const w = textarea.clientWidth > 0 ? textarea.clientWidth : 800;
+        const h = textarea.clientHeight > 0 ? textarea.clientHeight : 600;
+        textarea.value = `VES v1.0 ${w} ${h}\n`;
     }
 
     const vesCode = textarea.value.trim().split('\n');
-    let origWidth = 400;
-    let origHeight = 200;
+    let origWidth = textarea.clientWidth > 0 ? textarea.clientWidth : 800;
+    let origHeight = textarea.clientHeight > 0 ? textarea.clientHeight : 600;
 
     // Zistím originálnu veľkosť z 1. riadku, aby som zachytil presné súradnice
     if (vesCode.length > 0 && vesCode[0].startsWith('VES')) {
@@ -144,8 +148,8 @@ outputImg.addEventListener('click', (e) => {
     }
 
     // Výpočet kliknutej polohy pre VES plátno
-    const clickX = Math.round((e.offsetX / outputImg.clientWidth) * origWidth);
-    const clickY = Math.round((e.offsetY / outputImg.clientHeight) * origHeight);
+    let clickX = Math.round((e.offsetX / outputImg.clientWidth) * origWidth);
+    let clickY = Math.round((e.offsetY / outputImg.clientHeight) * origHeight);
 
     // Načítam farbu a veľkosť z inputov
     const colorInput = document.getElementById('shapeColor');
@@ -154,6 +158,19 @@ outputImg.addEventListener('click', (e) => {
     const sizeInput = document.getElementById('shapeSize');
     const size = sizeInput ? parseInt(sizeInput.value, 10) : 50;
     const thickness = Math.max(1, Math.floor(size / 15)); // hrúbka sa ráta podľa veľkosti
+
+    // Zabezpečenie, aby tvary nepretiekli mimo rozsah plátna
+    if (selectedShape === 'CIRCLE' || selectedShape === 'FILL_CIRCLE') {
+        clickX = Math.max(size, Math.min(clickX, origWidth - size));
+        clickY = Math.max(size, Math.min(clickY, origHeight - size));
+    } else if (selectedShape === 'RECT' || selectedShape === 'FILL_RECT') {
+        clickX = Math.max(0, Math.min(clickX, origWidth - (size * 2)));
+        clickY = Math.max(0, Math.min(clickY, origHeight - size));
+    } else if (selectedShape === 'TRIANGLE') {
+        const trWidth = Math.round(size * 1.2);
+        clickX = Math.max(0, Math.min(clickX, origWidth - trWidth));
+        clickY = Math.max(size, Math.min(clickY, origHeight));
+    }
 
     let command = "";
     if (selectedShape === 'CIRCLE') {
