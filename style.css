@@ -229,67 +229,45 @@ body>section:nth-of-type(2)::after {
 }
 
 @keyframes run-around {
-
-    /* Top edge: moving right */
     0% {
         top: 0;
         left: 0;
         transform: rotate(0deg);
     }
-
-    24% {
-        top: 0;
-        left: calc(100% - 100px);
-        transform: rotate(0deg);
-    }
-
-    /* Turn down */
     25% {
         top: 0;
         left: calc(100% - 100px);
-        transform: rotate(90deg);
+        transform: rotate(0deg);
     }
-
-    /* Right edge: moving down */
-    49% {
-        top: calc(100% - 100px);
+    25.001% {
+        top: 0;
         left: calc(100% - 100px);
         transform: rotate(90deg);
     }
-
-    /* Turn left */
     50% {
         top: calc(100% - 100px);
         left: calc(100% - 100px);
-        transform: scaleX(-1);
-        filter: hue-rotate(0deg);
+        transform: rotate(90deg);
     }
-
-    /* Bottom edge: moving left */
-    74% {
+    50.001% {
         top: calc(100% - 100px);
-        left: 0;
+        left: calc(100% - 100px);
         transform: scaleX(-1);
     }
-
-    /* Turn up */
     75% {
         top: calc(100% - 100px);
         left: 0;
-        transform: rotate(-90deg);
+        transform: scaleX(-1);
     }
-
-    /* Left edge: moving up */
-    99% {
-        top: 0;
+    75.001% {
+        top: calc(100% - 100px);
         left: 0;
         transform: rotate(-90deg);
     }
-
     100% {
         top: 0;
         left: 0;
-        transform: rotate(0deg);
+        transform: rotate(-90deg);
     }
 }
 
