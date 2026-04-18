@@ -21,6 +21,20 @@
     <!-- 1. sekcia obsahuje formulár -->
     <section>
         <form action="/render" method="POST">
+            <!-- Piktogramova paleta nastrojov -->
+            <div id="shape-toolbar" class="shape-toolbar">
+                <button type="button" class="tool-btn" data-shape="CIRCLE" title="Kruh">○</button>
+                <button type="button" class="tool-btn" data-shape="FILL_CIRCLE" title="Vyplnený Kruh">●</button>
+                <button type="button" class="tool-btn" data-shape="RECT" title="Obdĺžnik">□</button>
+                <button type="button" class="tool-btn" data-shape="FILL_RECT" title="Vyplnený obdĺžnik">■</button>
+                <button type="button" class="tool-btn" data-shape="TRIANGLE" title="Trojuholník">△</button>
+                <div style="width: 2px; background: rgba(128, 128, 128, 0.4); margin: 0 5px;"></div>
+                <button type="button" class="tool-btn" id="clearBtn" title="Vymazať všetko">🗑️</button>
+                <div class="toolbar-settings">
+                    <input type="color" id="shapeColor" value="#FF0000" title="Vybrať farbu tvaru">
+                    <input type="number" id="shapeSize" value="50" min="5" max="300" title="Veľkosť tvaru">
+                </div>
+            </div>
             <!-- Textové okno na VES (app.js s ním počíta) -->
             <textarea name="ves" rows="10" cols="40" placeholder="Sem napíšte VES kód..."></textarea>
             <br>
