@@ -46,10 +46,11 @@
 body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
         "header header"
-        "input output";
+        "input output"
+        "examples examples";
     height: 100vh;
     font-family: 'Comic Neue', cursive;
     background-color: var(--bg-color);
@@ -63,7 +64,8 @@ body {
     background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 0 0;
     animation: stars 20s linear infinite;
     color: var(--text-color);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     transition: background-color 0.5s, color 0.5s;
 }
 
@@ -213,9 +215,12 @@ body>section:nth-of-type(2) {
     /* Crucial for our moving cat */
     overflow-y: auto;
     overflow-x: hidden;
+    /* Pridáme neónový okraj, aby mačka mala po čom behať */
+    border: 4px solid #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
 
-/* THE MOVING NYAN CAT */
+/* THE MOVING NYAN CAT - beží okolo celej sekcie */
 body>section:nth-of-type(2)::after {
     content: '';
     position: absolute;
@@ -224,7 +229,6 @@ body>section:nth-of-type(2)::after {
     background: url('https://i.gifer.com/17xo.gif') no-repeat center / contain;
     z-index: 100;
     pointer-events: none;
-    /* Let clicks pass through */
     animation: run-around 10s linear infinite;
 }
 
@@ -478,9 +482,8 @@ textarea::-webkit-scrollbar-thumb {
     filter: hue-rotate(90deg);
 }
 
-/* Keď je vybratý nástroj, výstupný obrázok dostane krížik namiesto šípky, aby pouzivatel vedel kliknut */
-#output.crosshair-active {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%23ff00ff' stroke-width='2'/%3E%3Cpath d='M16 2 L16 30 M2 16 L30 16' stroke='%23ff00ff' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ff00ff'/%3E%3C/svg%3E") 16 16, crosshair;
+#outputImg.crosshair-active {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 4 L16 28 M4 16 L28 16' stroke='%23ff00ff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, crosshair;
 }
 
 /* Nastavenie farby a velkosti v toolbare */
@@ -547,4 +550,190 @@ textarea::-webkit-scrollbar-thumb {
 [data-theme='light'] #shapeSize:focus {
     border-color: #ff00ff;
     box-shadow: 0 0 10px #ff00ff;
+}
+
+/* --- Ukážky (Examples Gallery) --- */
+.examples-container {
+    grid-area: examples;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    border-top: 4px dashed var(--border-color);
+    background: var(--panel-bg);
+}
+
+.examples-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.examples-title {
+    font-size: 1.2rem;
+    color: #00ffff;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.scroll-btn {
+    padding: 0.5rem 1rem;
+    background: #00ffff;
+    color: #000;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Comic Neue', cursive;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+.scroll-btn:hover {
+    transform: scale(1.05);
+}
+
+[data-theme='light'] .scroll-btn {
+    background: #ff00ff;
+    color: #fff;
+}
+
+[data-theme='light'] .examples-title {
+    color: #ff00ff;
+    text-shadow: none;
+}
+
+.examples-list {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+/* Custom scrollbar pre horizontálny zoznam ukážok */
+.examples-list::-webkit-scrollbar {
+    height: 8px;
+}
+.examples-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+.examples-list::-webkit-scrollbar-thumb {
+    background: #00ffff;
+    border-radius: 4px;
+}
+[data-theme='light'] .examples-list::-webkit-scrollbar-thumb {
+    background: #ff00ff;
+}
+
+.example-card {
+    min-width: 200px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #00ffff;
+    border-radius: 12px;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.example-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-bottom: 2px solid #00ffff;
+}
+
+.example-img.placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, #001133, #004488);
+    font-family: 'Fira Code', monospace;
+    font-weight: bold;
+    color: #00ffff;
+    font-size: 1.5rem;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+[data-theme='light'] .example-img {
+    border-color: #ff00ff;
+}
+
+[data-theme='light'] .example-img.placeholder {
+    background: linear-gradient(45deg, #ffe0e0, #ffc0cb);
+    color: #ff00ff;
+}
+
+.example-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px #00ffff;
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.example-title {
+    font-weight: bold;
+    color: #fff;
+    font-size: 1rem;
+    text-align: left;
+    padding: 10px 10px 0 10px;
+}
+
+.example-code {
+    background: rgba(0, 0, 0, 0.3);
+    color: #ff9900;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.7rem;
+    margin: 8px 10px 10px 10px;
+    padding: 6px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    text-align: left;
+    height: 50px;
+    overflow: hidden;
+    pointer-events: none;
+    border-left: 2px solid #33cc33;
+}
+
+/* --- CANVAS WRAPPER (Presné ohraničenie obrázka) --- */
+.canvas-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    /* Zabezpečuje, že nadmerne vysoký obrázok nezdeformuje obrazovku a nespôsobí nutnosť nekonečného scrollovania */
+    max-height: 55vh; 
+}
+
+#outputImg {
+    display: block;
+    max-width: 100%;
+    max-height: 55vh;
+    height: auto;
+    width: auto;
+}
+
+/* --- RESPONZIVITA (Mobiles) --- */
+@media (max-width: 768px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+            "header"
+            "input"
+            "output"
+            "examples";
+        height: auto;
+    }
+
+    body>section:nth-of-type(1) {
+        border-right: none;
+        border-bottom: 4px dashed var(--border-color);
+    }
+    
+    body>section:nth-of-type(2) {
+        border-bottom: 4px dashed var(--border-color);
+    }
 }
