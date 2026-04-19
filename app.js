@@ -178,3 +178,27 @@ outputImg.addEventListener('click', (e) => {
     // dispatchEvent urobí plynulé odoslanie ako keby som klikol na tlačidlo
     textarea.closest('form').dispatchEvent(new Event('submit'));
 });
+
+// --- LOGIKA GALÉRIE ---
+// Vyhľadáme všetky karty v galérii a pridáme im funkciu na kliknutie
+document.querySelectorAll('.gallery-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const vesCode = card.dataset.ves;
+        const textarea = document.querySelector('textarea[name="ves"]');
+        
+        if (textarea) {
+            // 1. Vložíme kód z ukážky do textarea
+            textarea.value = vesCode;
+            
+            // 2. Vyvoláme udalosť 'submit', čím sa obrázok okamžite vyrenderuje
+            textarea.closest('form').dispatchEvent(new Event('submit'));
+            
+            // 3. Plynule odrolujeme používateľa hore k výsledku, aby ho hneď videl
+            // (vhodné najmä pre mobilné zariadenia)
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
