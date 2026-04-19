@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Fira+Code&display=swap');
 
+/* --- GLOBÁLNE ŠTÝLY --- */
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +8,7 @@
 }
 
 :root {
-    /* Night sky gradient */
+    /* Night sky design tokens */
     --bg-gradient: linear-gradient(to bottom, #020111 0%, #20124d 100%);
     --bg-color: #032a56;
     --text-color: #fff;
@@ -17,15 +18,13 @@
     --heading-shadow: rgba(255, 255, 255, 0.2);
     --input-bg: rgba(0, 0, 0, 0.5);
 
-    /* stars */
+    /* Animované hviezdy */
     --star-gradient: radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 4px);
     --star-gradient2: radial-gradient(white, rgba(255, 255, 255, .15) 1px, transparent 3px);
-    --star-gradient3: radial-gradient(white, rgba(255, 255, 255, .1) 2px, transparent 4px);
-    --star-gradient4: radial-gradient(rgba(255, 255, 255, .4), rgba(255, 255, 255, .1) 2px, transparent 3px);
 }
 
 [data-theme='light'] {
-    /* Sky blue to Pink gradient */
+    /* Day sky design tokens */
     --bg-gradient: linear-gradient(to bottom, #87ceeb 0%, #ffb6c1 100%);
     --bg-color: #ffb6c1;
     --text-color: #111;
@@ -34,51 +33,35 @@
     --header-border: #333;
     --heading-shadow: rgba(0, 0, 0, 0.2);
     --input-bg: rgba(255, 255, 255, 0.8);
-
-    /* Add moving clouds for light mode */
-    --star-gradient: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 550 550'%3E%3Cg fill='%23ffffff' opacity='0.8'%3E%3Ccircle cx='100' cy='120' r='30'/%3E%3Ccircle cx='150' cy='100' r='50'/%3E%3Ccircle cx='220' cy='110' r='40'/%3E%3Ccircle cx='260' cy='125' r='25'/%3E%3Crect x='100' y='125' width='160' height='25' rx='5'/%3E%3C/g%3E%3Cg fill='%23ffffff' opacity='0.5' transform='translate(250, 250) scale(0.6)'%3E%3Ccircle cx='100' cy='120' r='30'/%3E%3Ccircle cx='150' cy='100' r='50'/%3E%3Ccircle cx='220' cy='110' r='40'/%3E%3Ccircle cx='260' cy='125' r='25'/%3E%3Crect x='100' y='125' width='160' height='25' rx='5'/%3E%3C/g%3E%3C/svg%3E");
-    --star-gradient2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 350'%3E%3Cg fill='%23ffffff' opacity='0.6' transform='translate(30, 50) scale(0.45)'%3E%3Ccircle cx='100' cy='120' r='30'/%3E%3Ccircle cx='150' cy='100' r='50'/%3E%3Ccircle cx='220' cy='110' r='40'/%3E%3Ccircle cx='260' cy='125' r='25'/%3E%3Crect x='100' y='125' width='160' height='25' rx='5'/%3E%3C/g%3E%3Cg fill='%23ffffff' opacity='0.4' transform='translate(150, 180) scale(0.55)'%3E%3Ccircle cx='100' cy='120' r='30'/%3E%3Ccircle cx='150' cy='100' r='50'/%3E%3Ccircle cx='220' cy='110' r='40'/%3E%3Ccircle cx='260' cy='125' r='25'/%3E%3Crect x='100' y='125' width='160' height='25' rx='5'/%3E%3C/g%3E%3C/svg%3E");
-    --star-gradient3: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 250'%3E%3Cg fill='%23ffffff' opacity='0.3' transform='translate(10, 80) scale(0.35)'%3E%3Ccircle cx='100' cy='120' r='30'/%3E%3Ccircle cx='150' cy='100' r='50'/%3E%3Ccircle cx='220' cy='110' r='40'/%3E%3Ccircle cx='260' cy='125' r='25'/%3E%3Crect x='100' y='125' width='160' height='25' rx='5'/%3E%3C/g%3E%3C/svg%3E");
-    --star-gradient4: none;
 }
 
-/* Theme */
 body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
         "header header"
-        "input output";
-    height: 100vh;
+        "input output"
+        "gallery gallery";
+    min-height: 100vh;
     font-family: 'Comic Neue', cursive;
     background-color: var(--bg-color);
-    background-image:
-        var(--star-gradient),
-        var(--star-gradient2),
-        var(--star-gradient3),
-        var(--star-gradient4),
-        var(--bg-gradient);
-    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px, 100% 100%;
-    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 0 0;
+    background-image: var(--star-gradient), var(--star-gradient2), var(--bg-gradient);
+    background-size: 550px 550px, 350px 350px, 100% 100%;
     animation: stars 20s linear infinite;
     color: var(--text-color);
-    overflow: hidden;
-    transition: background-color 0.5s, color 0.5s;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    width: 100%;
 }
 
 @keyframes stars {
-    from {
-        background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 0 0;
-    }
-
-    to {
-        background-position: -550px 0, -310px 60px, -120px 270px, -80px 100px, 0 0;
-    }
-
-    /* Stars moving left */
+    from { background-position: 0 0, 40px 60px, 0 0; }
+    to { background-position: -550px 0, -350px 60px, 0 0; }
 }
 
+/* --- HLAVIČKA (HEADER) --- */
 .header-area {
     grid-area: header;
     display: flex;
@@ -97,11 +80,11 @@ h1 {
     -webkit-background-clip: text;
     color: transparent;
     font-size: clamp(1.8rem, 4vw, 2.5rem);
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 0px var(--heading-shadow);
     animation: rainbow-text 3s linear infinite;
-    margin: 0 auto;
+    text-shadow: 2px 2px 0px var(--heading-shadow);
 }
+
+@keyframes rainbow-text { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
 
 .header-buttons {
     display: flex;
@@ -111,88 +94,25 @@ h1 {
     align-items: center;
 }
 
-.theme-toggle {
+.theme-toggle, .sound-btn {
     position: relative;
-    padding: clamp(0.5rem, 1vw, 0.8rem) clamp(1rem, 2.5vw, 1.5rem);
+    padding: 0.8rem 1.8rem;
     border-radius: 50px;
-    /* Candy Pink Background (lesklý ružový) */
     background: radial-gradient(circle at 30% 30%, #ff529a 0%, #c1005a 80%);
     color: #ffffff;
-    font-family: inherit;
+    font-family: 'Comic Neue', cursive;
     font-weight: 900;
-    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    font-size: 1.2rem;
     cursor: pointer;
-
-    /* White rim as in the image / Obrys */
     border: 3px solid #ffffff;
-
-    /* Internal depth + outer shadow (Vnútorný a vonkajší 3D tieň) */
-    box-shadow:
-        inset 0px 8px 10px rgba(255, 255, 255, 0.6),
-        inset 0px -6px 10px rgba(80, 0, 30, 0.4),
-        0px 6px 12px rgba(0, 0, 0, 0.4);
-
+    box-shadow: inset 0px 8px 10px rgba(255, 255, 255, 0.6), 0px 6px 12px rgba(0, 0, 0, 0.4);
     transition: transform 0.2s, box-shadow 0.2s;
-    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
-    /* Pop text out */
-    outline: none;
-    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
 }
 
-.theme-toggle::after {
-    /* Extra glossy highlight on top / Silný biely odlesk zvrchu */
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 10px;
-    width: calc(100% - 20px);
-    height: 35%;
-    border-radius: 50px 50px 100px 100px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
-    pointer-events: none;
-}
+.sound-btn { min-width: 60px; }
 
-.sound-btn {
-    padding: 0;
-    width: clamp(2.5rem, 6vw, 3.5rem);
-    height: clamp(2.5rem, 6vw, 3.5rem);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
-}
-
-.sound-btn::after {
-    border-radius: 50%;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.05) translateY(-2px);
-    box-shadow:
-        inset 0px 8px 15px rgba(255, 255, 255, 0.8),
-        inset 0px -6px 10px rgba(80, 0, 30, 0.4),
-        0px 10px 15px rgba(0, 0, 0, 0.5);
-}
-
-.theme-toggle:active {
-    transform: scale(0.95);
-    box-shadow:
-        inset 0px 4px 6px rgba(255, 255, 255, 0.4),
-        inset 0px -3px 5px rgba(80, 0, 30, 0.4),
-        0px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes rainbow-text {
-    0% {
-        filter: hue-rotate(0deg);
-    }
-
-    100% {
-        filter: hue-rotate(360deg);
-    }
-}
-
+/* --- EDITOVRICKÝ PANEL (INPUT) --- */
 body>section:nth-of-type(1) {
     grid-area: input;
     padding: 2rem;
@@ -202,6 +122,32 @@ body>section:nth-of-type(1) {
     background: var(--panel-bg);
 }
 
+textarea {
+    width: 100%; flex-grow: 1;
+    background: var(--input-bg);
+    border: 4px solid #ff00ff;
+    border-radius: 20px;
+    color: var(--text-color);
+    padding: 1.5rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 16px; font-weight: bold;
+    box-shadow: 0 0 20px #ff00ff, inset 0 0 10px #ff00ff;
+    outline: none; resize: none;
+}
+
+button[type="submit"] {
+    width: 100%; padding: 1.2rem; margin-top: 1rem;
+    background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #0099ff, #6633cc);
+    background-size: 300% 300%;
+    color: white; border: 4px solid #fff; border-radius: 50px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.8rem; font-weight: bold;
+    cursor: pointer; animation: rainbow-bg 3s ease infinite;
+}
+
+@keyframes rainbow-bg { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+/* --- VÝSTUPNÝ PANEL (OUTPUT) --- */
 body>section:nth-of-type(2) {
     grid-area: output;
     padding: 2rem;
@@ -210,341 +156,109 @@ body>section:nth-of-type(2) {
     align-items: center;
     background: var(--panel-bg);
     position: relative;
-    /* Crucial for our moving cat */
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
-/* THE MOVING NYAN CAT */
-body>section:nth-of-type(2)::after {
+h2 { align-self: flex-start; margin-bottom: 1.5rem; font-size: 2.2rem; color: #ff9900; text-shadow: 2px 2px 0px #ff0000; }
+
+#output {
+    max-width: 100%; border-radius: 20px;
+    border: 5px dashed #00ffff; box-shadow: 0 0 30px #00ffff;
+    background: #fff; padding: 10px; position: relative; z-index: 5;
+}
+
+#output.crosshair-active {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 2v20M2 12h20' stroke='%23ff00ff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, crosshair;
+}
+
+/* --- PRECÍZNA NYAN CAT (Orbit okolo plátna) --- */
+.canvas-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+.canvas-wrapper::after {
     content: '';
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: 70px; height: 70px;
     background: url('https://i.gifer.com/17xo.gif') no-repeat center / contain;
     z-index: 100;
     pointer-events: none;
-    /* Let clicks pass through */
-    animation: run-around 10s linear infinite;
+    animation: nyan-orbit 12s linear infinite;
 }
 
-@keyframes run-around {
-    0% {
-        top: 0;
-        left: 0;
-        transform: rotate(0deg);
-    }
-    25% {
-        top: 0;
-        left: calc(100% - 100px);
-        transform: rotate(0deg);
-    }
-    25.001% {
-        top: 0;
-        left: calc(100% - 100px);
-        transform: rotate(90deg);
-    }
-    50% {
-        top: calc(100% - 100px);
-        left: calc(100% - 100px);
-        transform: rotate(90deg);
-    }
-    50.001% {
-        top: calc(100% - 100px);
-        left: calc(100% - 100px);
-        transform: scaleX(-1);
-    }
-    75% {
-        top: calc(100% - 100px);
-        left: 0;
-        transform: scaleX(-1);
-    }
-    75.001% {
-        top: calc(100% - 100px);
-        left: 0;
-        transform: rotate(-90deg);
-    }
-    100% {
-        top: 0;
-        left: 0;
-        transform: rotate(-90deg);
-    }
+@keyframes nyan-orbit {
+    /* Mačka sa na každom rohu otočí o 90 stupňov do smeru jazdy */
+    0%   { top: -35px; left: -35px; transform: rotate(0deg); }
+    25%  { top: -35px; left: calc(100% - 35px); transform: rotate(0deg); }
+    25.01% { transform: rotate(90deg); } /* Otočenie nadol */
+    
+    50%  { top: calc(100% - 35px); left: calc(100% - 35px); transform: rotate(90deg); }
+    50.01% { transform: rotate(180deg); } /* Otočenie doľava */
+    
+    75%  { top: calc(100% - 35px); left: -35px; transform: rotate(180deg); }
+    75.01% { transform: rotate(270deg); } /* Otočenie nahor */
+    
+    100% { top: -35px; left: -35px; transform: rotate(270deg); }
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    gap: 1.5rem;
-}
-
-textarea {
-    width: 100%;
-    flex-grow: 1;
-    background: var(--input-bg);
-    border: 4px solid #ff00ff;
-    /* Pink border */
-    border-radius: 16px;
-    color: var(--text-color);
-    padding: 1.5rem;
-    font-family: 'Fira Code', monospace;
-    font-size: 16px;
-    font-weight: bold;
-    resize: none;
-    outline: none;
-    box-shadow: 0 0 15px #ff00ff, inset 0 0 10px #ff00ff;
-    transition: all 0.3s ease;
-}
-
-textarea:focus {
-    border-color: #00ffff;
-    box-shadow: 0 0 25px #00ffff, inset 0 0 15px #00ffff;
-}
-
-br {
-    display: none;
-}
-
-button {
-    padding: 1rem 2rem;
-    background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33cc33, #0099ff, #6633cc);
-    background-size: 300% 300%;
-    color: white;
-    border: 4px solid #fff;
-    border-radius: 50px;
-    font-size: 1.5rem;
-    font-family: 'Comic Neue', cursive;
-    font-weight: bold;
-    cursor: pointer;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    animation: rainbow-bg 3s ease infinite;
-    transition: transform 0.2s;
-}
-
-button:hover {
-    transform: scale(1.05) translateY(-3px);
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-@keyframes rainbow-bg {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-h2 {
-    align-self: flex-start;
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
-    color: #ff9900;
-    text-shadow: 2px 2px 0px #ff0000;
-    z-index: 10;
-}
-
-img {
-    max-width: 100%;
-    max-height: 70vh;
-    border-radius: 16px;
-    object-fit: contain;
-    border: 5px dashed #00ffff;
-    box-shadow: 0 0 20px #00ffff;
-    background: #fff;
-    /* White bg makes image visible */
-    padding: 10px;
-    z-index: 10;
-    animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0px) rotate(0deg);
-    }
-
-    50% {
-        transform: translateY(-10px) rotate(1deg);
-    }
-
-    100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-}
-
-/* Custom Rainbow Scrollbar */
-textarea::-webkit-scrollbar {
-    width: 12px;
-}
-
-textarea::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-textarea::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #ff0000, #ff9900, #ffff00, #33cc33, #0099ff, #6633cc);
-    border-radius: 10px;
-}
-
-/* --- Tvarová Paleta --- */
+/* --- PANAL NÁSTROJOV (GLOSSY) --- */
 .shape-toolbar {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 10px;
-    border-radius: 16px;
-    border: 3px solid var(--border-color);
-}
-
-[data-theme='light'] .shape-toolbar {
-    background: rgba(255, 255, 255, 0.6);
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    background: rgba(0, 0, 0, 0.6); padding: 15px 20px;
+    border-radius: 30px; border: 3px solid var(--border-color);
+    margin-bottom: 1rem;
 }
 
 .tool-btn {
-    position: relative;
-    padding: 0;
-    width: 3rem;
-    height: 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    border-radius: 50%;
-    cursor: pointer;
+    position: relative; width: 3.2rem; height: 3.2rem; border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #ff529a 0%, #c1005a 80%);
     border: 3px solid #ffffff !important;
-    box-shadow:
-        inset 0px 8px 10px rgba(255, 255, 255, 0.6),
-        inset 0px -6px 10px rgba(80, 0, 30, 0.4),
-        0px 6px 12px rgba(0, 0, 0, 0.4) !important;
-    color: #ffffff;
-    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
-    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4) !important;
-    animation: none !important;
-    outline: none;
-    z-index: 100;
+    box-shadow: inset 0px 8px 10px rgba(255, 255, 255, 0.6), 0px 6px 12px rgba(0, 0, 0, 0.4) !important;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    color: #ffffff; font-size: 1.6rem; transition: transform 0.2s;
 }
 
 .tool-btn::after {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 10%;
-    width: 80%;
-    height: 35%;
+    content: ''; position: absolute; top: 4px; left: 10%; width: 80%; height: 35%;
     border-radius: 50px 50px 100px 100px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
     pointer-events: none;
 }
 
-.tool-btn:hover {
-    transform: scale(1.1) translateY(-2px) !important;
-    box-shadow:
-        inset 0px 8px 15px rgba(255, 255, 255, 0.8),
-        inset 0px -6px 10px rgba(80, 0, 30, 0.4),
-        0px 10px 15px rgba(0, 0, 0, 0.5) !important;
-}
-
-.tool-btn:active {
-    transform: scale(0.95) !important;
-    box-shadow:
-        inset 0px 4px 6px rgba(255, 255, 255, 0.4),
-        inset 0px -3px 5px rgba(80, 0, 30, 0.4),
-        0px 2px 4px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* Aktívny nástroj dostane výrazný obrys a rotáciu farby */
 .tool-btn.active {
-    border-color: #00ffff !important;
-    box-shadow: 0 0 15px #00ffff, inset 0 0 10px #00ffff !important;
-    transform: scale(1.1) !important;
-    filter: hue-rotate(90deg);
+    transform: scale(1.2) translateY(-5px);
+    background: radial-gradient(circle at 30% 30%, #00ffff 0%, #0088cc 80%);
+    box-shadow: 0 0 25px #00ffff, inset 0px 8px 10px rgba(255, 255, 255, 0.8) !important;
 }
 
-[data-theme='light'] .tool-btn.active {
-    border-color: #ff00ff !important;
-    box-shadow: 0 0 15px #ff00ff, inset 0 0 10px #ff00ff !important;
-    filter: hue-rotate(90deg);
+/* --- KAPSULY (FARBA/VEĽKOSŤ) --- */
+.toolbar-settings { display: flex; align-items: center; gap: 12px; border-left: 2px solid rgba(255, 255, 255, 0.2); padding-left: 15px; }
+
+#shapeColor, #shapeSize {
+    height: 3.2rem; border-radius: 20px; border: 3px solid #ffffff !important;
+    background: radial-gradient(circle at 30% 30%, #ff529a 0%, #c1005a 80%) !important;
+    box-shadow: inset 0px 8px 10px rgba(255, 255, 255, 0.6), 0px 4px 8px rgba(0, 0, 0, 0.4);
+    font-family: inherit; font-weight: bold; color: #fff; cursor: pointer;
 }
 
-/* Keď je vybratý nástroj, výstupný obrázok dostane krížik namiesto šípky, aby pouzivatel vedel kliknut */
-#output.crosshair-active {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%23ff00ff' stroke-width='2'/%3E%3Cpath d='M16 2 L16 30 M2 16 L30 16' stroke='%23ff00ff' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ff00ff'/%3E%3C/svg%3E") 16 16, crosshair;
+#shapeColor { 
+    width: 90px; padding: 2px 28px 2px 6px; appearance: none; -webkit-appearance: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'/%3E%3C/svg%3E") no-repeat right 8px center / 20px,
+                radial-gradient(circle at 30% 30%, #ff529a 0%, #c1005a 80%) !important;
 }
 
-/* Nastavenie farby a velkosti v toolbare */
-.toolbar-settings {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-left: 2px solid rgba(255, 255, 255, 0.2);
-    padding-left: 10px;
-    margin-left: 5px;
-}
+#shapeColor::-webkit-color-swatch { border-radius: 10px; border: 3px solid #ffffff !important; }
 
-[data-theme='light'] .toolbar-settings {
-    border-left-color: rgba(0, 0, 0, 0.2);
-}
+#shapeSize { width: 80px; text-align: center; font-size: 1.1rem; outline: none; }
 
-#shapeColor {
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0;
-    border: 2px solid #fff;
-    border-radius: 8px;
-    cursor: pointer;
-    background: none;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    transition: transform 0.2s;
-}
+/* --- GALÉRIA --- */
+.gallery-container { grid-area: gallery; padding: 4rem 2vw; background: rgba(0, 0, 0, 0.4); border-top: 5px dashed var(--border-color); }
+.gallery-container h2 { text-align: center; margin-bottom: 2.5rem; font-size: 2.5rem; color: #00ffff; }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; max-width: 1100px; margin: 0 auto; }
+.gallery-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(15px); border: 3px solid var(--border-color); border-radius: 25px; padding: 1.5rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; align-items: center; }
+.gallery-card:hover { transform: translateY(-15px) scale(1.05); border-color: #00ffff; }
+.card-thumbnail { width: 100%; height: 140px; object-fit: cover; border-radius: 15px; border: 2px solid rgba(255, 255, 255, 0.3); margin-bottom: 0.8rem; }
+.code-preview { width: 100%; background: rgba(0, 0, 0, 0.5); color: #00ffcc; font-family: 'Fira Code', monospace; font-size: 0.7rem; padding: 0.8rem; border-radius: 10px; margin-top: 1rem; text-align: left; max-height: 80px; overflow: hidden; }
 
-[data-theme='light'] #shapeColor {
-    border-color: #333;
-}
-
-#shapeColor:hover {
-    transform: scale(1.1);
-}
-
-#shapeSize {
-    width: 4.5rem;
-    height: 2.5rem;
-    padding: 5px;
-    border: 2px solid #fff;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    font-family: inherit;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-}
-
-[data-theme='light'] #shapeSize {
-    border-color: #333;
-    background: rgba(255, 255, 255, 0.8);
-    color: #111;
-}
-
-#shapeSize:focus {
-    outline: none;
-    border-color: #00ffff;
-    box-shadow: 0 0 10px #00ffff;
-}
-
-[data-theme='light'] #shapeSize:focus {
-    border-color: #ff00ff;
-    box-shadow: 0 0 10px #ff00ff;
-}
+@media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; } }
