@@ -49,8 +49,9 @@ body {
     grid-template-rows: auto 1fr;
     grid-template-areas:
         "header header"
-        "input output";
-    height: 100vh;
+        "input output"
+        "gallery gallery";
+    min-height: 100vh;
     font-family: 'Comic Neue', cursive;
     background-color: var(--bg-color);
     background-image:
@@ -63,7 +64,6 @@ body {
     background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 0 0;
     animation: stars 20s linear infinite;
     color: var(--text-color);
-    overflow: hidden;
     transition: background-color 0.5s, color 0.5s;
 }
 
@@ -569,4 +569,111 @@ textarea::-webkit-scrollbar-thumb {
 [data-theme='light'] #shapeSize:focus {
     border-color: #ff00ff;
     box-shadow: 0 0 10px #ff00ff;
+}
+
+/* --- GALÉRIA --- */
+.gallery-container {
+    grid-area: gallery;
+    padding: 3rem 2vw;
+    background: var(--panel-bg);
+    border-top: 4px dashed var(--border-color);
+}
+
+.gallery-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #ff9900;
+    text-shadow: 3px 3px 0px #ff0000;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.gallery-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 3px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    width: 100%; /* Prispôsobí sa mriežke */
+}
+
+.gallery-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #00ffff;
+    box-shadow: 0 15px 30px rgba(0, 255, 255, 0.3);
+}
+
+.card-thumbnail {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 0.2rem;
+}
+
+.gallery-card h3 {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin: 0;
+    font-weight: bold;
+}
+
+.code-preview {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    color: #00ffcc;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.65rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    margin: 0.5rem 0 0 0;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow: hidden;
+    max-height: 60px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    pointer-events: none; /* Kliknutie prejde na kartu */
+}
+
+/* Responzivita pre mobily */
+@media (max-width: 768px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+            "header"
+            "input"
+            "output"
+            "gallery";
+    }
+
+    body>section:nth-of-type(1) {
+        border-right: none;
+        border-bottom: 4px dashed var(--border-color);
+    }
+    
+    img {
+        max-height: 50vh;
+    }
+
+    .gallery-card {
+        width: 160px;
+    }
 }
