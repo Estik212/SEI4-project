@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VES Render</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Pridali sme 'defer', aby sa skript app.js načítal a spustil až keď prebehne stavba HTML (inak by nenašiel ten form) -->
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <div class="header-area">
+        <h1>VES Render</h1>
+        <div class="header-buttons">
+            <button id="soundToggle" class="theme-toggle sound-btn" title="Prehrať hudbu">🔈</button>
+            <button id="themeToggle" class="theme-toggle">🌞 Light Mode</button>
+        </div>
+    </div>
+    <!-- 1. sekcia obsahuje formulár -->
+    <section>
+        <form action="/render" method="POST">
+            <!-- Piktogramova paleta nastrojov -->
+            <div id="shape-toolbar" class="shape-toolbar">
+                <button type="button" class="tool-btn" data-shape="CIRCLE" title="Kruh">○</button>
+                <button type="button" class="tool-btn" data-shape="FILL_CIRCLE" title="Vyplnený Kruh">●</button>
+                <button type="button" class="tool-btn" data-shape="RECT" title="Obdĺžnik">□</button>
+                <button type="button" class="tool-btn" data-shape="FILL_RECT" title="Vyplnený obdĺžnik">■</button>
+                <button type="button" class="tool-btn" data-shape="TRIANGLE" title="Trojuholník">△</button>
+                <div style="width: 2px; background: rgba(128, 128, 128, 0.4); margin: 0 5px;"></div>
+                <button type="button" class="tool-btn" id="clearBtn" title="Vymazať všetko">🗑️</button>
+                <div class="toolbar-settings">
+                    <input type="color" id="shapeColor" value="#FF0000" title="Vybrať farbu tvaru">
+                    <input type="number" id="shapeSize" value="50" min="5" max="300" title="Veľkosť tvaru">
+                </div>
+            </div>
+            <!-- Textové okno na VES (app.js s ním počíta) -->
+            <textarea name="ves" rows="10" cols="40" placeholder="Sem napíšte VES kód..."></textarea>
+            <br>
+            <button type="submit">Vyrenderovať obrázok</button>
+        </form>
+    </section>
+
+    <!-- 2. sekcia obsahuje miesto, kam sa nahrá obrázok. App.js ju vyhľadá pomocou 'section:nth-child(2)' -->
+    <section>
+        <h2>Výstup:</h2>
+        <!-- Pridali sme id="output", ktoré hľadá app.js na riadku 18 -->
+        <img id="output" alt="Tu sa po stlačení tlačidla zobrazí vyrenderovaný obrázok" />
+    </section>
+
+</body>
+
+</html>
