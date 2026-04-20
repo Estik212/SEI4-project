@@ -370,6 +370,10 @@ h2 {
     max-width: 100%;
     width: auto;
     height: auto;
+    min-width: 300px;
+    /* minimálna šírka - viditeľná plocha */
+    min-height: 250px;
+    /* minimálna výška - rovnaká výška ako textarea */
     border-radius: 20px;
     border: 5px dashed #00ffff;
     box-shadow: 0 0 30px #00ffff;
