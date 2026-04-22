@@ -46,7 +46,8 @@
 body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr auto; /* auto pre galériu na konci */
+    grid-template-rows: auto 1fr auto;
+    /* auto pre galériu na konci */
     grid-template-areas:
         "header header"
         "input output"
@@ -64,7 +65,8 @@ body {
     background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 0 0;
     animation: stars 20s linear infinite;
     color: var(--text-color);
-    overflow-y: auto; /* Povolené scrollovanie */
+    overflow-y: auto;
+    /* Povolené scrollovanie */
     overflow-x: hidden;
     scroll-behavior: smooth;
     transition: background-color 0.5s, color 0.5s;
@@ -228,7 +230,8 @@ body>section:nth-of-type(2) {
 .canvas-wrapper::after {
     content: '';
     position: absolute;
-    width: 70px; height: 70px;
+    width: 70px;
+    height: 70px;
     background: url('https://i.gifer.com/17xo.gif') no-repeat center / contain;
     z-index: 100;
     pointer-events: none;
@@ -236,15 +239,49 @@ body>section:nth-of-type(2) {
 }
 
 @keyframes nyan-orbit {
+
     /* Mačka obieha presne okolo neonového okraja plátna bez točenia */
-    0%   { top: -35px; left: -35px; transform: rotate(0deg); }
-    25%  { top: -35px; left: calc(100% - 35px); transform: rotate(0deg); }
-    25.01% { transform: rotate(90deg); }
-    50%  { top: calc(100% - 35px); left: calc(100% - 35px); transform: rotate(90deg); }
-    50.01% { transform: rotate(180deg); }
-    75%  { top: calc(100% - 35px); left: -35px; transform: rotate(180deg); }
-    75.01% { transform: rotate(270deg); }
-    100% { top: -35px; left: -35px; transform: rotate(270deg); }
+    0% {
+        top: -35px;
+        left: -35px;
+        transform: rotate(0deg);
+    }
+
+    25% {
+        top: -35px;
+        left: calc(100% - 35px);
+        transform: rotate(0deg);
+    }
+
+    25.01% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        top: calc(100% - 35px);
+        left: calc(100% - 35px);
+        transform: rotate(90deg);
+    }
+
+    50.01% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        top: calc(100% - 35px);
+        left: -35px;
+        transform: rotate(180deg);
+    }
+
+    75.01% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        top: -35px;
+        left: -35px;
+        transform: rotate(270deg);
+    }
 }
 
 form {
@@ -333,6 +370,10 @@ h2 {
     max-width: 100%;
     width: auto;
     height: auto;
+    min-width: 300px;
+    /* minimálna šírka - viditeľná plocha */
+    min-height: 250px;
+    /* minimálna výška - rovnaká výška ako textarea */
     border-radius: 20px;
     border: 5px dashed #00ffff;
     box-shadow: 0 0 30px #00ffff;
@@ -453,7 +494,8 @@ textarea::-webkit-scrollbar-thumb {
     padding-left: 15px;
 }
 
-#shapeColor, #shapeSize {
+#shapeColor,
+#shapeSize {
     height: 3.2rem;
     border-radius: 20px;
     border: 3px solid #ffffff !important;
@@ -470,14 +512,17 @@ textarea::-webkit-scrollbar-thumb {
     padding: 2px 28px 2px 6px;
     appearance: none;
     -webkit-appearance: none;
-    background: 
+    background:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'/%3E%3C/svg%3E") no-repeat right 8px center / 20px,
         radial-gradient(circle at 30% 30%, #ff529a 0%, #c1005a 80%) !important;
 }
 
-#shapeColor::-webkit-color-swatch-wrapper { padding: 4px; }
-#shapeColor::-webkit-color-swatch { 
-    border-radius: 10px; 
+#shapeColor::-webkit-color-swatch-wrapper {
+    padding: 4px;
+}
+
+#shapeColor::-webkit-color-swatch {
+    border-radius: 10px;
     border: 3px solid #ffffff !important;
 }
 
@@ -536,7 +581,8 @@ textarea::-webkit-scrollbar-thumb {
     align-items: center;
     gap: 0.8rem;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    width: 100%; /* Prispôsobí sa mriežke */
+    width: 100%;
+    /* Prispôsobí sa mriežke */
 }
 
 .gallery-card:hover {
@@ -576,7 +622,8 @@ textarea::-webkit-scrollbar-thumb {
     overflow: hidden;
     max-height: 60px;
     border: 1px solid rgba(0, 255, 255, 0.2);
-    pointer-events: none; /* Kliknutie prejde na kartu */
+    pointer-events: none;
+    /* Kliknutie prejde na kartu */
 }
 
 /* Responzivita pre mobily */
@@ -595,7 +642,7 @@ textarea::-webkit-scrollbar-thumb {
         border-right: none;
         border-bottom: 4px dashed var(--border-color);
     }
-    
+
     img {
         max-height: 50vh;
     }
